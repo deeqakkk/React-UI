@@ -12,5 +12,5 @@
 - User can search for a product using ```Search``` input field
 
 ### Important Links
-- [Github Repo](https://reactjs.org/)
-- [Live Demo](https://react-bootstrap.github.io/)
+- [Github Repo](https://github.com/deeqakkk/React-UI)
+- [Live Demo](https://react-interface.netlify.app/)
