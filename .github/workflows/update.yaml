@@ -1,26 +1,18 @@
-name: Update Version Tag
+name: Update version tag
 
 on:
   push:
     branches:
-      - main # Change this to the branch you want to trigger the workflow on
+      - main
 
 jobs:
-  update_version_tag:
+  update-version-tag:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Fetch last commit hash
-        id: get_hash
-        run: echo "::set-output name=hash::$(git rev-parse --short HEAD)"
-
-      - name: Update version tag in index.html
-        run: |
-          sed -i "s/version-tag/${{ steps.fetch_commit_hash.outputs.commit_hash }}/g" public/index.html
-          git add .
-          git config --local user.email "0822deepakverma@gmail.com"
-          git config --local user.name "Deepak Verma"
-          git commit -m "Update version tag to ${{ steps.fetch_commit_hash.outputs.commit_hash }}"
+      - name: Fetch commit hash
+        run: echo "::set-output name=commit_hash::$(git rev-parse --short HEAD)"
+        id: fetch_commit_hash
+      - name: Replace version tag
+        run: sed -i "s/version-tag/${{ steps.fetch_commit_hash.outputs.commit_hash }}/g" public/index.html
