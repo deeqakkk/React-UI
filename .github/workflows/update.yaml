@@ -26,8 +26,14 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
+      - name: Show changes
+        run: git status
+
       - name: Stage changes
         run: git add .
+
+      - name: Show changes
+        run: git status
 
       - name: Commit changes
         run: git commit -m "Update version tag to latest commit hash [${{ steps.get_hash.outputs.hash }}]"
