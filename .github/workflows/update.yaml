@@ -27,7 +27,7 @@ jobs:
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Stage changes
-        run: git add public/index.html
+        run: git add .
 
       - name: Commit changes
         run: git commit -m "Update version tag to latest commit hash [${{ steps.get_hash.outputs.hash }}]"
