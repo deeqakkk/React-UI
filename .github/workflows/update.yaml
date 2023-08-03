@@ -22,15 +22,15 @@ jobs:
           sed -i "s/<meta id=\"version-tag\" version=\"[0-9.]*\" \/>/<meta id=\"version-tag\" version=\"${VERSION}\" \/>/" public/index.html
 
       - name: Stage changes
-        run: |
-          git add public/index.html
-          git status
+        run: git add public/index.html
 
-      - name: Commit and push changes
+      - name: Commit changes
         run: |
           git config user.name "${GITHUB_ACTOR}"
           git config user.email "${GITHUB_ACTOR}@users.noreply.github.com"
           git commit -m "Update version tag to latest commit hash [${GITHUB_SHA}]"
-          git push origin main # Change 'main' to your main branch name if it's different
+
+      - name: Push changes
+        run: git push origin main # Change 'main' to your main branch name if it's different
         env:
           VERSION: ${{ steps.get_hash.outputs.hash }}
