@@ -16,12 +16,10 @@ jobs:
       - name: Get last commit hash
         id: get_hash
         run: echo "::set-output name=hash::$(git rev-parse --short HEAD)"
-             echo public/index.html
 
       - name: Update version tag in index.html
         run: |
           sed -i "s/<meta id=\"version-tag\" version=\"[0-9a-f]*\" \/>/<meta id=\"version-tag\" version=\"${{ steps.get_hash.outputs.hash }}\" \/>/" public/index.html
-          echo public/index.html
 
       - name: Configure Git
         run: |
