@@ -1,42 +1,27 @@
-name: Update Version
+name: Update Version Tag
 
 on:
   push:
     branches:
-      - main # Change this to your main branch name if it's different
+      - main # Change this to the branch you want to trigger the workflow on
 
 jobs:
-  update_version:
+  update_version_tag:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Get last commit hash
-        id: get_hash
-        run: echo "::set-output name=hash::$(git rev-parse --short HEAD)"
+      - name: Fetch last commit hash
+        run: |
+          last_commit_hash=$(git rev-parse HEAD)
+          echo "::set-output name=commit_hash::$last_commit_hash"
 
       - name: Update version tag in index.html
         run: |
-          sed -i "s/<meta id=\"version-tag\" version=\"[0-9a-f]*\" \/>/<meta id=\"version-tag\" version=\"${{ steps.get_hash.outputs.hash }}\" \/>/" public/index.html
-
-      - name: Configure Git
-        run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "${{ github.actor }}@users.noreply.github.com"
-
-      - name: Show changes
-        run: git status
-
-      - name: Stage changes
-        run: git add .
-
-      - name: Show changes
-        run: git status
-
-      - name: Commit changes
-        run: git commit -m "Update version tag to latest commit hash [${{ steps.get_hash.outputs.hash }}]"
-
-      - name: Push changes
-        run: git push origin main # Change 'main' to your main branch name if it's different
+          sed -i "s/version-tag/${{ steps.fetch_commit_hash.outputs.commit_hash }}/g" public/index.html
+          git add public/index.html
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -m "Update version tag to ${{ steps.fetch_commit_hash.outputs.commit_hash }}"
