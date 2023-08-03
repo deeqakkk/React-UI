@@ -16,3 +16,15 @@ jobs:
         id: fetch_commit_hash
       - name: Replace version tag
         run: sed -i "s/version-tag/${{ steps.fetch_commit_hash.outputs.commit_hash }}/g" public/index.html
+      - name: Commit changes
+        run: |
+          git add public/index.html
+          git config --local user.email "
+          git config --local user.name "Deepak Verma"
+          git commit -m "Update version tag to ${{ steps.fetch_commit_hash.outputs.commit_hash }}"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: main
+
