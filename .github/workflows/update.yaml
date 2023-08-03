@@ -19,7 +19,7 @@ jobs:
       - name: Replace version tag
         run: |
           COMMIT_HASH=$(cat $GITHUB_SHA)
-          sed "s/{VERSION_TAG}/$COMMIT_HASH/g" index.html
+          sed "s/{VERSION_TAG}/$COMMIT_HASH/g" public/index.html
 
       - name: Copy updated index.html to public folder
         run: cp temp_index.html public/index.html
