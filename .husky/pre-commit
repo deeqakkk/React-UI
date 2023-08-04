@@ -6,5 +6,4 @@
 # Fetch the last commit hash
 LAST_COMMIT_HASH=$(git rev-parse HEAD)
 
-# Replace the version tag in index.template.html with the last commit hash
-sed -i "s/version-tag/$LAST_COMMIT_HASH/g" public/index.html
+sed -i "s/<meta id=\"version-tag\" version=\"[^\"]*\" \/>/<meta id=\"version-tag\" version=\"$LAST_COMMIT_HASH\" \/>/g" public/index.template.html
