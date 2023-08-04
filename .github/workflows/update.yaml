@@ -15,7 +15,7 @@ jobs:
         run: echo "::set-output name=commit_hash::$(git rev-parse --short HEAD)"
         id: fetch_commit_hash
       - name: Replace version tag
-        run: sed -i "s/version-tag/${{ steps.fetch_commit_hash.outputs.commit_hash }}/g" public/index.html
+        run: sed -i "s/version-update/${{ steps.fetch_commit_hash.outputs.commit_hash }}/g" public/index.html
       - name: Commit changes
         run: |
           git add public/index.html
@@ -27,4 +27,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: main
-
